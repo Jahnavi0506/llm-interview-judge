@@ -3,3 +3,5 @@ google-genai
 pydantic
 python-dotenv
 reportlab
+plotly
+pytest

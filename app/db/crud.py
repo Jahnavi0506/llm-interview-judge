@@ -87,7 +87,8 @@ def save_evaluation(
     evaluation: EvaluationOutput,
     confidence: str = None,
     confidence_score: float = None,
-    self_assessment_gap: float = None
+    self_assessment_gap: float = None,
+    prompt_versions: dict = None
 ) -> int:
     conn = get_connection()
     cursor = conn.cursor()
@@ -95,8 +96,8 @@ def save_evaluation(
         """INSERT INTO evaluations
            (question_id, candidate_answer, score, confidence, confidence_score,
             self_assessment_gap, missing_concepts, strengths, weaknesses,
-            concept_coverage, improved_answer, interviewer_note)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            concept_coverage, improved_answer, interviewer_note, prompt_versions)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (
             question_id,
             candidate_answer,
@@ -109,7 +110,8 @@ def save_evaluation(
             json.dumps(evaluation.weaknesses),
             json.dumps(evaluation.concept_coverage),
             evaluation.improved_answer,
-            evaluation.interviewer_note
+            evaluation.interviewer_note,
+            json.dumps(prompt_versions or {})
         )
     )
     evaluation_id = cursor.lastrowid
@@ -195,3 +197,53 @@ def get_report(session_id: int) -> dict | None:
     row = cursor.fetchone()
     conn.close()
     return dict(row) if row else None
+
+# ── Follow-up Questions ───────────────────────────────────
+
+def save_follow_up(
+    evaluation_id: int,
+    question_id: int,
+    follow_up_text: str,
+    targets: list,
+    intent: str,
+    candidate_answer: str = None
+) -> int:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        """INSERT INTO follow_up_questions
+           (evaluation_id, question_id, follow_up_text,
+            targets, intent, candidate_answer)
+           VALUES (?, ?, ?, ?, ?, ?)""",
+        (
+            evaluation_id,
+            question_id,
+            follow_up_text,
+            json.dumps(targets),
+            intent,
+            candidate_answer
+        )
+    )
+    follow_up_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return follow_up_id
+
+
+def get_follow_ups_for_question(question_id: int) -> list[dict]:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        """SELECT * FROM follow_up_questions
+           WHERE question_id = ?
+           ORDER BY created_at ASC""",
+        (question_id,)
+    )
+    rows = cursor.fetchall()
+    conn.close()
+    results = []
+    for row in rows:
+        r = dict(row)
+        r["targets"] = json.loads(r["targets"])
+        results.append(r)
+    return results

@@ -1,0 +1,256 @@
+2026-06-27 09:44:08 | INFO     | app.core.evaluator | Evaluating answer | answer_length=56 | concepts=['Query', 'Key', 'Value', 'Softmax']
+2026-06-27 09:44:08 | INFO     | app.core.evaluator | Evaluation complete | score=7.5 | missing=['Query', 'Key', 'Value']
+2026-06-27 09:44:08 | INFO     | app.core.evaluator | Evaluating answer | answer_length=13 | concepts=['Query', 'Key', 'Value', 'Softmax']
+2026-06-27 09:44:08 | INFO     | app.core.evaluator | Evaluation complete | score=1.0 | missing=['Query', 'Key', 'Value', 'Softmax']
+2026-06-27 09:44:08 | INFO     | app.core.question_generator | Generating question | domain=LLMs | difficulty=Medium
+2026-06-27 09:44:08 | INFO     | app.core.question_generator | Question generated | topic_tags=['attention', 'transformers']
+2026-06-27 09:44:08 | INFO     | app.core.question_generator | Generating question | domain=ML | difficulty=Easy
+2026-06-27 09:44:08 | INFO     | app.core.question_generator | Question generated | topic_tags=['attention', 'transformers']
+2026-06-27 09:45:27 | INFO     | app.core.evaluator | Evaluating answer | answer_length=56 | concepts=['Query', 'Key', 'Value', 'Softmax']
+2026-06-27 09:45:27 | INFO     | app.core.evaluator | Evaluation complete | score=7.5 | missing=['Query', 'Key', 'Value']
+2026-06-27 09:45:27 | INFO     | app.core.evaluator | Evaluating answer | answer_length=13 | concepts=['Query', 'Key', 'Value', 'Softmax']
+2026-06-27 09:45:27 | INFO     | app.core.evaluator | Evaluation complete | score=1.0 | missing=['Query', 'Key', 'Value', 'Softmax']
+2026-06-27 09:45:27 | INFO     | app.core.question_generator | Generating question | domain=LLMs | difficulty=Medium
+2026-06-27 09:45:27 | INFO     | app.core.question_generator | Question generated | topic_tags=['attention', 'transformers']
+2026-06-27 09:45:27 | INFO     | app.core.question_generator | Generating question | domain=ML | difficulty=Easy
+2026-06-27 09:45:27 | INFO     | app.core.question_generator | Question generated | topic_tags=['attention', 'transformers']
+2026-06-27 09:45:44 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Easy
+2026-06-27 09:45:44 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1191
+2026-06-27 09:45:53 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=332
+2026-06-27 09:45:53 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:45:53 | INFO     | app.core.question_generator | Question generated | topic_tags=['Machine Learning', 'Model Evaluation']
+2026-06-27 09:46:32 | INFO     | app.core.evaluator | Evaluating answer | answer_length=270 | concepts=['Overfitting', 'Regression', 'Model Complexity', 'Training Error']
+2026-06-27 09:46:32 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2760
+2026-06-27 09:46:34 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1406
+2026-06-27 09:46:34 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:46:34 | INFO     | app.core.evaluator | Evaluation complete | score=7.0 | missing=['Regression', 'Model Complexity', 'Training Error']
+2026-06-27 09:47:13 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Easy
+2026-06-27 09:47:13 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1399
+2026-06-27 09:47:13 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=399
+2026-06-27 09:47:13 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:47:13 | INFO     | app.core.question_generator | Question generated | topic_tags=['Machine Learning', 'Supervised Learning', 'Unsupervised Learning']
+2026-06-27 09:48:14 | INFO     | app.core.evaluator | Evaluating answer | answer_length=526 | concepts=['Supervised Learning', 'Unsupervised Learning', 'Regression', 'Clustering']
+2026-06-27 09:48:14 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=3055
+2026-06-27 09:48:16 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=2156
+2026-06-27 09:48:16 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:48:16 | INFO     | app.core.evaluator | Evaluation complete | score=7.0 | missing=['Regression', 'Clustering']
+2026-06-27 09:48:26 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1725
+2026-06-27 09:48:36 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=578
+2026-06-27 09:48:36 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:49:20 | INFO     | app.core.evaluator | Evaluating answer | answer_length=176 | concepts=['Regression']
+2026-06-27 09:49:20 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2789
+2026-06-27 09:49:21 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1588
+2026-06-27 09:49:21 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:49:21 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=[]
+2026-06-27 09:49:30 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Easy
+2026-06-27 09:49:30 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1569
+2026-06-27 09:49:35 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=390
+2026-06-27 09:49:35 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:49:35 | INFO     | app.core.question_generator | Question generated | topic_tags=['Regularization', 'Model Complexity']
+2026-06-27 09:50:38 | INFO     | app.core.evaluator | Evaluating answer | answer_length=368 | concepts=['L1 Regularization', 'L2 Regularization', 'Model Overfitting', 'Hyperparameter Tuning']
+2026-06-27 09:50:38 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2918
+2026-06-27 09:50:40 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=2274
+2026-06-27 09:50:40 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:50:40 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=['L1 Regularization', 'L2 Regularization', 'Hyperparameter Tuning']
+2026-06-27 09:50:57 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Easy
+2026-06-27 09:50:57 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1748
+2026-06-27 09:50:57 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=330
+2026-06-27 09:50:57 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:50:57 | INFO     | app.core.question_generator | Question generated | topic_tags=['Machine Learning', 'Model Evaluation']
+2026-06-27 09:51:38 | INFO     | app.core.evaluator | Evaluating answer | answer_length=397 | concepts=['Bias', 'Variance', 'Tradeoff', 'Model Complexity']
+2026-06-27 09:51:38 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2885
+2026-06-27 09:51:40 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=2336
+2026-06-27 09:51:40 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:51:40 | INFO     | app.core.evaluator | Evaluation complete | score=7.0 | missing=['Tradeoff explanation with specific examples', "Detailed explanation of model complexity's role"]
+2026-06-27 09:51:52 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Easy
+2026-06-27 09:51:52 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1901
+2026-06-27 09:51:52 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=414
+2026-06-27 09:51:52 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:51:52 | INFO     | app.core.question_generator | Question generated | topic_tags=['Data Preprocessing', 'Feature Engineering']
+2026-06-27 09:52:29 | INFO     | app.core.evaluator | Evaluating answer | answer_length=279 | concepts=['Data Cleaning', 'Feature Scaling', 'Handling Missing Values', 'Data Normalization']
+2026-06-27 09:52:29 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2846
+2026-06-27 09:52:30 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1774
+2026-06-27 09:52:30 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:52:30 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=['Feature Scaling', 'Data Normalization']
+2026-06-27 09:52:38 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2897
+2026-06-27 09:52:38 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=817
+2026-06-27 09:52:38 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:54:01 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Medium
+2026-06-27 09:54:01 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1195
+2026-06-27 09:54:02 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=437
+2026-06-27 09:54:02 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:54:02 | INFO     | app.core.question_generator | Question generated | topic_tags=['Neural Networks', 'Regularization Techniques']
+2026-06-27 09:54:02 | INFO     | app.core.evaluator | Evaluating answer | answer_length=21 | concepts=['Overfitting', 'L1 Regularization', 'L2 Regularization', 'Model Generalization']
+2026-06-27 09:54:02 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2606
+2026-06-27 09:54:03 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1633
+2026-06-27 09:54:03 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:54:03 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=['L1 Regularization', 'L2 Regularization', 'Model Generalization']
+2026-06-27 09:54:03 | INFO     | app.core.evaluator | Evaluating answer | answer_length=21 | concepts=['Overfitting', 'L1 Regularization', 'L2 Regularization', 'Model Generalization']
+2026-06-27 09:54:03 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2606
+2026-06-27 09:54:05 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1896
+2026-06-27 09:54:05 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:54:05 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=['L1 Regularization', 'L2 Regularization', 'Model Generalization']
+2026-06-27 09:54:05 | INFO     | app.core.evaluator | Evaluating answer | answer_length=21 | concepts=['Overfitting', 'L1 Regularization', 'L2 Regularization', 'Model Generalization']
+2026-06-27 09:54:05 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2606
+2026-06-27 09:54:06 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1799
+2026-06-27 09:54:06 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:54:06 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=['L1 Regularization', 'L2 Regularization', 'Model Generalization']
+2026-06-27 09:58:06 | INFO     | app.core.question_generator | Generating question | domain=DSA | difficulty=Easy
+2026-06-27 09:58:06 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1178
+2026-06-27 09:58:07 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=369
+2026-06-27 09:58:07 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:58:07 | INFO     | app.core.question_generator | Question generated | topic_tags=['Data Structures', 'Algorithms']
+2026-06-27 09:58:55 | INFO     | app.core.evaluator | Evaluating answer | answer_length=420 | concepts=['Hash Table', 'Key-Value Pairs', 'Hash Function', 'Collision Resolution']
+2026-06-27 09:58:55 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2954
+2026-06-27 09:58:56 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1433
+2026-06-27 09:58:56 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:58:56 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=['Hash Function', 'Collision Resolution']
+2026-06-27 09:59:09 | INFO     | app.core.question_generator | Generating question | domain=DSA | difficulty=Easy
+2026-06-27 09:59:09 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1423
+2026-06-27 09:59:10 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=330
+2026-06-27 09:59:10 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 09:59:10 | INFO     | app.core.question_generator | Question generated | topic_tags=['Data Structures', 'Algorithms']
+2026-06-27 10:00:06 | INFO     | app.core.evaluator | Evaluating answer | answer_length=439 | concepts=['Stack', 'Queue', 'LIFO', 'FIFO', 'Data Structure Selection']
+2026-06-27 10:00:06 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2935
+2026-06-27 10:00:08 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=2010
+2026-06-27 10:00:08 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:00:08 | INFO     | app.core.evaluator | Evaluation complete | score=8.0 | missing=['Data Structure Selection']
+2026-06-27 10:00:25 | INFO     | app.core.question_generator | Generating question | domain=DSA | difficulty=Easy
+2026-06-27 10:00:25 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1573
+2026-06-27 10:00:26 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=394
+2026-06-27 10:00:26 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:00:26 | INFO     | app.core.question_generator | Question generated | topic_tags=['Tree Data Structure', 'Data Storage']
+2026-06-27 10:01:08 | INFO     | app.core.evaluator | Evaluating answer | answer_length=375 | concepts=['Node', 'Edge', 'Root', 'Hierarchical Organization']
+2026-06-27 10:01:08 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2928
+2026-06-27 10:01:10 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1499
+2026-06-27 10:01:10 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:01:10 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=['Node', 'Edge', 'Root']
+2026-06-27 10:01:17 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1912
+2026-06-27 10:01:18 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=746
+2026-06-27 10:01:18 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:02:35 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Medium
+2026-06-27 10:02:35 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1195
+2026-06-27 10:02:35 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=468
+2026-06-27 10:02:35 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:02:35 | INFO     | app.core.question_generator | Question generated | topic_tags=['Neural Networks', 'Regularization Techniques']
+2026-06-27 10:02:35 | INFO     | app.core.evaluator | Evaluating answer | answer_length=4 | concepts=['Overfitting', 'L1 Regularization', 'L2 Regularization', 'Model Interpretability']
+2026-06-27 10:02:35 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2620
+2026-06-27 10:02:36 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1895
+2026-06-27 10:02:36 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:02:36 | INFO     | app.core.evaluator | Evaluation complete | score=1.0 | missing=['Overfitting', 'L1 Regularization', 'L2 Regularization', 'Model Interpretability']
+2026-06-27 10:02:36 | INFO     | app.core.evaluator | Evaluating answer | answer_length=4 | concepts=['Overfitting', 'L1 Regularization', 'L2 Regularization', 'Model Interpretability']
+2026-06-27 10:02:36 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2620
+2026-06-27 10:02:38 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1585
+2026-06-27 10:02:38 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:02:38 | INFO     | app.core.evaluator | Evaluation complete | score=1.0 | missing=['Overfitting', 'L1 Regularization', 'L2 Regularization', 'Model Interpretability']
+2026-06-27 10:02:38 | INFO     | app.core.evaluator | Evaluating answer | answer_length=4 | concepts=['Overfitting', 'L1 Regularization', 'L2 Regularization', 'Model Interpretability']
+2026-06-27 10:02:38 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2620
+2026-06-27 10:02:39 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1852
+2026-06-27 10:02:39 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:02:39 | INFO     | app.core.evaluator | Evaluation complete | score=1.0 | missing=['Overfitting', 'L1 Regularization', 'L2 Regularization', 'Model Interpretability']
+2026-06-27 10:05:00 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Easy
+2026-06-27 10:05:00 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1191
+2026-06-27 10:05:01 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=365
+2026-06-27 10:05:01 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:05:01 | INFO     | app.core.question_generator | Question generated | topic_tags=['Machine Learning', 'Model Evaluation']
+2026-06-27 10:05:26 | INFO     | app.core.evaluator | Evaluating answer | answer_length=462 | concepts=['Overfitting', 'Regularization', 'L1 Regularization', 'L2 Regularization']
+2026-06-27 10:05:26 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2985
+2026-06-27 10:05:28 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1754
+2026-06-27 10:05:28 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:05:28 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=['L1 Regularization', 'L2 Regularization']
+2026-06-27 10:05:42 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Easy
+2026-06-27 10:05:42 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1424
+2026-06-27 10:05:43 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=369
+2026-06-27 10:05:43 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:05:43 | INFO     | app.core.question_generator | Question generated | topic_tags=['Machine Learning', 'Learning Paradigms']
+2026-06-27 10:06:24 | INFO     | app.core.evaluator | Evaluating answer | answer_length=519 | concepts=['Supervised Learning', 'Unsupervised Learning', 'Classification', 'Clustering']
+2026-06-27 10:06:24 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=3044
+2026-06-27 10:06:25 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1770
+2026-06-27 10:06:25 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:06:25 | INFO     | app.core.evaluator | Evaluation complete | score=8.0 | missing=['classification', 'clustering']
+2026-06-27 10:06:33 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Easy
+2026-06-27 10:06:33 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1586
+2026-06-27 10:06:34 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=325
+2026-06-27 10:06:34 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:06:34 | INFO     | app.core.question_generator | Question generated | topic_tags=['Machine Learning', 'Model Evaluation']
+2026-06-27 10:07:39 | INFO     | app.core.evaluator | Evaluating answer | answer_length=403 | concepts=['Bias', 'Variance', 'Tradeoff', 'Model Performance']
+2026-06-27 10:07:39 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2886
+2026-06-27 10:07:41 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1998
+2026-06-27 10:07:41 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:07:41 | INFO     | app.core.evaluator | Evaluation complete | score=7.0 | missing=['Tradeoff explanation in depth', 'Model Performance metrics']
+2026-06-27 10:07:50 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Easy
+2026-06-27 10:07:50 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1733
+2026-06-27 10:07:51 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=436
+2026-06-27 10:07:51 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:07:51 | INFO     | app.core.question_generator | Question generated | topic_tags=['Machine Learning', 'Data Preprocessing']
+2026-06-27 10:08:28 | INFO     | app.core.evaluator | Evaluating answer | answer_length=354 | concepts=['Feature Engineering', 'Data Transformation', 'Model Performance', 'Feature Extraction']
+2026-06-27 10:08:28 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2946
+2026-06-27 10:08:30 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1804
+2026-06-27 10:08:30 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:08:30 | INFO     | app.core.evaluator | Evaluation complete | score=7.0 | missing=['Data Transformation', 'Feature Extraction']
+2026-06-27 10:08:36 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Easy
+2026-06-27 10:08:36 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1953
+2026-06-27 10:08:37 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=421
+2026-06-27 10:08:37 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:08:37 | INFO     | app.core.question_generator | Question generated | topic_tags=['Data Preprocessing', 'Machine Learning Fundamentals']
+2026-06-27 10:09:00 | INFO     | app.core.evaluator | Evaluating answer | answer_length=343 | concepts=['Data Cleaning', 'Missing Value Handling', 'Data Transformation', 'Feature Scaling']
+2026-06-27 10:09:00 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2907
+2026-06-27 10:09:02 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1625
+2026-06-27 10:09:02 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:09:02 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=['Data Transformation', 'Feature Scaling']
+2026-06-27 10:09:15 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2913
+2026-06-27 10:09:16 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=825
+2026-06-27 10:09:16 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:14:24 | INFO     | app.core.question_generator | Generating question | domain=LLMs | difficulty=Easy
+2026-06-27 10:14:24 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1179
+2026-06-27 10:14:25 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=333
+2026-06-27 10:14:25 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:14:25 | INFO     | app.core.question_generator | Question generated | topic_tags=['LLMs', 'Tokenization', 'Input Processing']
+2026-06-27 10:14:57 | INFO     | app.core.evaluator | Evaluating answer | answer_length=326 | concepts=['Token', 'Tokenization', 'Subwords', 'Vocabulary']
+2026-06-27 10:14:57 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2813
+2026-06-27 10:14:59 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1561
+2026-06-27 10:14:59 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:14:59 | INFO     | app.core.evaluator | Evaluation complete | score=5.0 | missing=['Subwords', 'Vocabulary']
+2026-06-27 10:15:05 | INFO     | app.core.question_generator | Generating question | domain=LLMs | difficulty=Easy
+2026-06-27 10:15:05 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1400
+2026-06-27 10:15:06 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=340
+2026-06-27 10:15:06 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:15:06 | INFO     | app.core.question_generator | Question generated | topic_tags=['LLMs', 'Embeddings']
+2026-06-27 10:15:41 | INFO     | app.core.evaluator | Evaluating answer | answer_length=280 | concepts=['embedding layer', 'vector space', 'word representations', 'semantic meaning']
+2026-06-27 10:15:41 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2796
+2026-06-27 10:15:42 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1392
+2026-06-27 10:15:42 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:15:42 | INFO     | app.core.evaluator | Evaluation complete | score=7.5 | missing=['vector space']
+2026-06-27 10:15:47 | INFO     | app.core.question_generator | Generating question | domain=LLMs | difficulty=Easy
+2026-06-27 10:15:47 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1554
+2026-06-27 10:15:48 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=379
+2026-06-27 10:15:48 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:15:48 | INFO     | app.core.question_generator | Question generated | topic_tags=['LLMs', 'Vocabulary', 'Out-of-Vocabulary Words']
+2026-06-27 10:16:21 | INFO     | app.core.evaluator | Evaluating answer | answer_length=325 | concepts=['subword modeling', 'character-level modeling', 'vocabulary size', 'word representation']
+2026-06-27 10:16:21 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2853
+2026-06-27 10:16:23 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1738
+2026-06-27 10:16:23 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:16:23 | INFO     | app.core.evaluator | Evaluation complete | score=7.0 | missing=['subword modeling', 'character-level modeling', 'vocabulary size', 'word representation']
+2026-06-27 10:16:39 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1884
+2026-06-27 10:16:40 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=745
+2026-06-27 10:16:40 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:17:40 | INFO     | app.core.question_generator | Generating question | domain=Machine Learning | difficulty=Medium
+2026-06-27 10:17:40 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=1195
+2026-06-27 10:17:41 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=402
+2026-06-27 10:17:41 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:17:41 | INFO     | app.core.question_generator | Question generated | topic_tags=['Machine Learning', 'Classification']
+2026-06-27 10:17:41 | INFO     | app.core.evaluator | Evaluating answer | answer_length=13 | concepts=['Class Imbalance', 'Random Forest', 'Support Vector Machine', 'Classification Metrics']
+2026-06-27 10:17:41 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2573
+2026-06-27 10:17:42 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1772
+2026-06-27 10:17:42 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:17:42 | INFO     | app.core.evaluator | Evaluation complete | score=0.0 | missing=['Class Imbalance', 'Random Forest', 'Support Vector Machine', 'Classification Metrics']
+2026-06-27 10:17:42 | INFO     | app.core.evaluator | Evaluating answer | answer_length=13 | concepts=['Class Imbalance', 'Random Forest', 'Support Vector Machine', 'Classification Metrics']
+2026-06-27 10:17:42 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2573
+2026-06-27 10:17:43 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1659
+2026-06-27 10:17:43 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:17:43 | INFO     | app.core.evaluator | Evaluation complete | score=0.0 | missing=['Class Imbalance', 'Random Forest', 'Support Vector Machine', 'Classification Metrics']
+2026-06-27 10:17:43 | INFO     | app.core.evaluator | Evaluating answer | answer_length=13 | concepts=['Class Imbalance', 'Random Forest', 'Support Vector Machine', 'Classification Metrics']
+2026-06-27 10:17:43 | INFO     | app.core.gemini_client | API call started | model=llama-3.3-70b-versatile | prompt_length=2573
+2026-06-27 10:17:44 | INFO     | app.core.gemini_client | API call success | attempt=1 | response_length=1680
+2026-06-27 10:17:44 | INFO     | app.core.gemini_client | JSON parsing successful
+2026-06-27 10:17:44 | INFO     | app.core.evaluator | Evaluation complete | score=0.0 | missing=['Class Imbalance', 'Random Forest', 'Support Vector Machine', 'Classification Metrics']

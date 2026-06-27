@@ -39,6 +39,7 @@ def show():
     st.markdown("")
 
     if st.button("🚀 Start Interview", use_container_width=True):
+        # Create session in DB
         session_id = create_session(domain, difficulty, total_questions)
 
         # Reset full session state
@@ -46,20 +47,43 @@ def show():
         for key in ["question", "question_id", "evaluation",
                     "submitted_answer", "current_question_num",
                     "session_scores", "interview_complete",
-                    "report", "asked_questions"]:          # ← added asked_questions
+                    "report", "asked_questions",
+                    "selected_confidence", "selected_confidence_score",
+                    "self_assessment_gap", "confidence_used",
+                    "confidence_score_used", "current_difficulty",
+                    "difficulty_history", "follow_up",
+                    "follow_up_evaluation"]:
             st.session_state[key] = None
 
-        # Initialize asked questions as empty list
-        st.session_state.asked_questions = []
-
+        # Set new session values
         st.session_state.session_id = session_id
         st.session_state.domain = domain
         st.session_state.difficulty = difficulty
+        st.session_state.current_difficulty = difficulty  # ← tracks adaptive difficulty
+        st.session_state.difficulty_history = []          # ← tracks changes
         st.session_state.topic = topic
         st.session_state.total_questions = total_questions
         st.session_state.current_question_num = 1
         st.session_state.session_scores = []
         st.session_state.interview_complete = False
+        st.session_state.asked_questions = []
 
-        st.success(f"Session started! **{total_questions} questions** | Domain: **{domain}** | Difficulty: **{difficulty}**")
+        st.success(
+            f"Session started! **{total_questions} questions** | "
+            f"Domain: **{domain}** | Difficulty: **{difficulty}**"
+        )
         st.info("👈 Go to **Interview** in the sidebar to begin.")
+
+    # ── Prompt Registry ────────────────────────────────────
+    st.markdown("---")
+    with st.expander("🔧 Prompt Registry — Current Versions"):
+        from app.core.prompt_registry import get_all_versions
+        versions = get_all_versions()
+        for name, info in versions.items():
+            st.markdown(f"**{name}** — v{info['version']}")
+            st.caption(info["description"])
+            with st.expander(f"Changelog — {name}"):
+                for log in info["changelog"]:
+                    st.markdown(f"- {log}")
+        st.markdown("")
+        st.info("Prompt versions are automatically stored with every evaluation for traceability.")

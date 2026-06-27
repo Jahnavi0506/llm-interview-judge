@@ -9,6 +9,8 @@ from reportlab.platypus import (
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 import io
 
+from app.config import PDF_FOOTER
+
 
 # ── Color Palette ──────────────────────────────────────────
 COLOR_PRIMARY   = colors.HexColor("#7c3aed")
@@ -135,15 +137,14 @@ def generate_pdf_report(
 ) -> bytes:
     """
     Generates a PDF interview report and returns it as bytes.
-
-    Args:
-        session_info: dict with domain, difficulty, total_questions, created_at
-        report: overall report dict from interview_reports table
-        results: list of per-question results from get_session_results()
-
-    Returns:
-        PDF as bytes — ready for st.download_button
     """
+
+    # Safely extract report fields with fallbacks
+    avg_score = report.get("avg_score", 0) or 0
+    recommendation = report.get("recommendation", "N/A") or "N/A"
+    strongest_topic = report.get("strongest_topic", "N/A") or "N/A"
+    weakest_topic = report.get("weakest_topic", "N/A") or "N/A"
+    overall_feedback = report.get("overall_feedback", "") or ""
 
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
@@ -166,11 +167,13 @@ def generate_pdf_report(
 
     # ── Session Info Table ─────────────────────────────────
     created = str(session_info.get("created_at", ""))[:19]
+    domain = session_info.get("domain", "N/A")
+    difficulty = session_info.get("difficulty", "N/A")
+    total_questions = str(session_info.get("total_questions", len(results)))
+
     info_data = [
-        ["Domain", session_info["domain"],
-         "Difficulty", session_info["difficulty"]],
-        ["Questions", str(session_info.get("total_questions", len(results))),
-         "Date", created],
+        ["Domain", domain, "Difficulty", difficulty],
+        ["Questions", total_questions, "Date", created],
     ]
     info_table = Table(info_data, colWidths=[35*mm, 55*mm, 35*mm, 55*mm])
     info_table.setStyle(TableStyle([
@@ -179,7 +182,6 @@ def generate_pdf_report(
         ("FONTNAME",    (2, 0), (2, -1), "Helvetica-Bold"),
         ("FONTSIZE",    (0, 0), (-1, -1), 9),
         ("TEXTCOLOR",   (0, 0), (-1, -1), COLOR_TEXT),
-        ("BACKGROUND",  (0, 0), (-1, -1), colors.HexColor("#f8fafc")),
         ("ROWBACKGROUNDS", (0, 0), (-1, -1),
          [colors.HexColor("#f1f5f9"), colors.HexColor("#f8fafc")]),
         ("GRID",        (0, 0), (-1, -1), 0.5, colors.HexColor("#e2e8f0")),
@@ -191,12 +193,9 @@ def generate_pdf_report(
     # ── Overall Score ──────────────────────────────────────
     story.append(Paragraph("Overall Performance", S["section"]))
 
-    avg = report.get("avg_score", 0)
-    rec = report.get("recommendation", "N/A")
-
     score_data = [
         ["Average Score", "Recommendation"],
-        [f"{avg}/10", rec]
+        [f"{avg_score}/10", recommendation]
     ]
     score_table = Table(score_data, colWidths=[85*mm, 85*mm])
     score_table.setStyle(TableStyle([
@@ -205,8 +204,8 @@ def generate_pdf_report(
         ("FONTSIZE",    (0, 0), (-1, 0), 10),
         ("FONTSIZE",    (0, 1), (-1, 1), 20),
         ("TEXTCOLOR",   (0, 0), (-1, 0), COLOR_LIGHT),
-        ("TEXTCOLOR",   (0, 1), (0, 1), score_color(avg)),
-        ("TEXTCOLOR",   (1, 1), (1, 1), recommendation_color(rec)),
+        ("TEXTCOLOR",   (0, 1), (0, 1), score_color(avg_score)),
+        ("TEXTCOLOR",   (1, 1), (1, 1), recommendation_color(recommendation)),
         ("ALIGN",       (0, 0), (-1, -1), "CENTER"),
         ("VALIGN",      (0, 0), (-1, -1), "MIDDLE"),
         ("BACKGROUND",  (0, 0), (-1, -1), colors.HexColor("#f8fafc")),
@@ -219,10 +218,7 @@ def generate_pdf_report(
     # Strongest / Weakest
     sw_data = [
         ["Strongest Topic", "Weakest Topic"],
-        [
-            report.get("strongest_topic", "N/A"),
-            report.get("weakest_topic", "N/A")
-        ]
+        [strongest_topic, weakest_topic]
     ]
     sw_table = Table(sw_data, colWidths=[85*mm, 85*mm])
     sw_table.setStyle(TableStyle([
@@ -241,11 +237,8 @@ def generate_pdf_report(
     story.append(sw_table)
     story.append(Spacer(1, 8))
 
-    # Overall feedback
-    story.append(Paragraph(
-        report.get("overall_feedback", ""),
-        S["body_light"]
-    ))
+    if overall_feedback:
+        story.append(Paragraph(overall_feedback, S["body_light"]))
 
     # ── Calibration Summary ────────────────────────────────
     story.append(Paragraph("Self-Assessment Calibration", S["section"]))
@@ -296,14 +289,22 @@ def generate_pdf_report(
     for r in results:
         story.append(Spacer(1, 6))
 
-        # Question header
         q_num = r.get("question_number", "?")
-        score = r.get("score", 0)
+        q_score = r.get("score", 0) or 0
+        q_text = r.get("question_text", "") or ""
+        interviewer_note = r.get("interviewer_note", "") or ""
+        candidate_answer = r.get("candidate_answer", "") or ""
+        improved_answer = r.get("improved_answer", "") or ""
+        strengths = r.get("strengths", []) or []
+        missing_concepts = r.get("missing_concepts", []) or []
+        confidence = r.get("confidence", None)
+        gap = r.get("self_assessment_gap", None)
 
+        # Question header
         header_data = [[
             f"Q{q_num}",
-            r["question_text"],
-            f"{score}/10"
+            q_text,
+            f"{q_score}/10"
         ]]
         header_table = Table(
             header_data,
@@ -312,9 +313,8 @@ def generate_pdf_report(
         header_table.setStyle(TableStyle([
             ("FONTNAME",    (0, 0), (-1, -1), "Helvetica-Bold"),
             ("FONTSIZE",    (0, 0), (-1, -1), 10),
-            ("TEXTCOLOR",   (0, 0), (0, 0), COLOR_WHITE),
-            ("TEXTCOLOR",   (1, 0), (1, 0), COLOR_WHITE),
-            ("TEXTCOLOR",   (2, 0), (2, 0), score_color(score)),
+            ("TEXTCOLOR",   (0, 0), (1, 0), COLOR_WHITE),
+            ("TEXTCOLOR",   (2, 0), (2, 0), score_color(q_score)),
             ("BACKGROUND",  (0, 0), (1, 0), COLOR_BG),
             ("BACKGROUND",  (2, 0), (2, 0), COLOR_BG),
             ("ALIGN",       (0, 0), (0, 0), "CENTER"),
@@ -325,8 +325,7 @@ def generate_pdf_report(
         story.append(header_table)
 
         # Confidence row
-        if r.get("confidence"):
-            gap = r.get("self_assessment_gap", 0) or 0
+        if confidence and gap is not None:
             if gap < -2:
                 cal_text = "⚠️ Overconfident"
             elif gap > 2:
@@ -334,20 +333,20 @@ def generate_pdf_report(
             else:
                 cal_text = "✅ Well Calibrated"
             story.append(Paragraph(
-                f"Confidence: {r['confidence']}  |  {cal_text}  |  Gap: {gap:+.1f} pts",
+                f"Confidence: {confidence}  |  {cal_text}  |  Gap: {gap:+.1f} pts",
                 S["body_light"]
             ))
 
-        # Interviewer note
-        story.append(Paragraph(
-            f"Interviewer Note: {r.get('interviewer_note', '')}",
-            S["body_light"]
-        ))
+        if interviewer_note:
+            story.append(Paragraph(
+                f"Interviewer Note: {interviewer_note}",
+                S["body_light"]
+            ))
         story.append(Spacer(1, 4))
 
-        # Strengths and Missing in a table
-        strengths_text = "\n".join(f"• {s}" for s in r.get("strengths", []))
-        missing_text = "\n".join(f"• {m}" for m in r.get("missing_concepts", []))
+        # Strengths and Missing
+        strengths_text = "\n".join(f"• {s}" for s in strengths)
+        missing_text = "\n".join(f"• {m}" for m in missing_concepts)
 
         sm_data = [
             ["✅ Strengths", "🔍 Missing Concepts"],
@@ -370,19 +369,13 @@ def generate_pdf_report(
         story.append(sm_table)
         story.append(Spacer(1, 4))
 
-        # Candidate answer
-        story.append(Paragraph("Your Answer:", S["subsection"]))
-        story.append(Paragraph(
-            r.get("candidate_answer", ""),
-            S["answer"]
-        ))
+        if candidate_answer:
+            story.append(Paragraph("Your Answer:", S["subsection"]))
+            story.append(Paragraph(candidate_answer, S["answer"]))
 
-        # Improved answer
-        story.append(Paragraph("Improved Answer:", S["subsection"]))
-        story.append(Paragraph(
-            r.get("improved_answer", ""),
-            S["improved"]
-        ))
+        if improved_answer:
+            story.append(Paragraph("Improved Answer:", S["subsection"]))
+            story.append(Paragraph(improved_answer, S["improved"]))
 
         story.append(HRFlowable(
             width="100%", thickness=0.5,
@@ -392,7 +385,7 @@ def generate_pdf_report(
     # ── Footer ─────────────────────────────────────────────
     story.append(Spacer(1, 12))
     story.append(Paragraph(
-        "Generated by LLM Interview Judge • Powered by Groq + Streamlit",
+        PDF_FOOTER,
         S["body_light"]
     ))
 

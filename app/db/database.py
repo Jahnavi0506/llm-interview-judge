@@ -24,6 +24,16 @@ def init_db():
             status          TEXT DEFAULT 'in_progress',
             created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
+        CREATE TABLE IF NOT EXISTS follow_up_questions (
+            id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+            evaluation_id       INTEGER REFERENCES evaluations(id),
+            question_id         INTEGER REFERENCES questions(id),
+            follow_up_text      TEXT NOT NULL,
+            targets             TEXT,
+            intent              TEXT,
+            candidate_answer    TEXT,
+            created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
 
         CREATE TABLE IF NOT EXISTS questions (
             id              INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,6 +60,7 @@ def init_db():
             concept_coverage    TEXT,
             improved_answer     TEXT,
             interviewer_note    TEXT,
+            prompt_versions     TEXT,
             evaluated_at        TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
 

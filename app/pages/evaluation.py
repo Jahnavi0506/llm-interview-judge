@@ -1,12 +1,15 @@
 import streamlit as st
 from app.core.evaluator import evaluate_answer
 from app.core.report_generator import generate_overall_report
+from app.core.prompt_registry import get_all_versions
 from app.db.crud import (
     save_evaluation, get_session_results,
     save_report, get_report, complete_session
 )
 from app.utils.pdf_generator import generate_pdf_report
 from app.db.crud import get_all_sessions
+from app.core.follow_up_generator import generate_follow_up
+from app.db.crud import save_follow_up
 
 def score_color(score: float) -> str:
     if score >= 8:
@@ -66,7 +69,8 @@ def show():
                     evaluation,
                     confidence=confidence,
                     confidence_score=confidence_score,
-                    self_assessment_gap=gap
+                    self_assessment_gap=gap,
+                    prompt_versions=get_all_versions()
                 )
                 st.session_state.evaluation = evaluation
                 st.session_state.self_assessment_gap = gap
@@ -215,6 +219,107 @@ def show():
 
     st.markdown("---")
 
+    # ── Follow-up Question ─────────────────────────────────
+    st.markdown("---")
+    st.subheader("🔁 Follow-up Question")
+
+    if st.session_state.get("follow_up") is None:
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            st.markdown("Want the interviewer to probe deeper based on your gaps?")
+        with col2:
+            generate_fu = st.button(
+                "Generate Follow-up",
+                use_container_width=True
+            )
+
+        if generate_fu:
+            with st.spinner("Generating follow-up question..."):
+                try:
+                    follow_up = generate_follow_up(
+                        original_question=st.session_state.question.question,
+                        candidate_answer=st.session_state.submitted_answer,
+                        missing_concepts=evaluation.missing_concepts,
+                        score=evaluation.score
+                    )
+                    st.session_state.follow_up = follow_up
+
+                    # Save to DB
+                    save_follow_up(
+                        evaluation_id=0,  # simplified
+                        question_id=st.session_state.question_id,
+                        follow_up_text=follow_up.follow_up_question,
+                        targets=follow_up.targets,
+                        intent=follow_up.intent,
+                        candidate_answer=st.session_state.submitted_answer
+                    )
+                    st.rerun()
+
+                except Exception as e:
+                    st.error(f"Follow-up generation failed: {str(e)}")
+
+    if st.session_state.get("follow_up"):
+        follow_up = st.session_state.follow_up
+
+        st.markdown(f"""
+        <div style="background:#1e1e2e; border-left:4px solid #7c3aed;
+                    padding:20px; border-radius:8px; margin-bottom:16px;">
+            <div style="color:#94a3b8; font-size:11px; margin-bottom:8px;">
+                FOLLOW-UP QUESTION
+            </div>
+            <div style="color:#e2e8f0; font-size:16px; font-weight:500;">
+                {follow_up.follow_up_question}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Show what it targets
+        if follow_up.targets:
+            st.markdown(
+                "**Targeting:** " +
+                " • ".join(follow_up.targets)
+            )
+        st.caption(f"💡 Intent: {follow_up.intent}")
+
+        # Allow candidate to answer the follow-up
+        fu_answer = st.text_area(
+            "Your answer to the follow-up (optional):",
+            height=120,
+            key="follow_up_answer"
+        )
+
+        if fu_answer.strip():
+            if st.button("📤 Evaluate Follow-up Answer", use_container_width=True):
+                with st.spinner("Evaluating follow-up answer..."):
+                    try:
+                        fu_evaluation = evaluate_answer(
+                            question=follow_up.follow_up_question,
+                            candidate_answer=fu_answer,
+                            key_concepts=follow_up.targets
+                        )
+                        st.session_state.follow_up_evaluation = fu_evaluation
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Follow-up evaluation failed: {str(e)}")
+
+        # Show follow-up evaluation if done
+        if st.session_state.get("follow_up_evaluation"):
+            fu_eval = st.session_state.follow_up_evaluation
+            fu_color = score_color(fu_eval.score)
+            st.markdown(f"""
+            <div style="background:#1e1e2e; padding:16px; border-radius:8px;
+                        border-left:4px solid {fu_color}; margin-top:12px;">
+                <div style="color:{fu_color}; font-size:24px; font-weight:bold;">
+                    {fu_eval.score}/10
+                </div>
+                <div style="color:#94a3b8; margin-top:4px;">
+                    {fu_eval.interviewer_note}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
     # ── Navigation ─────────────────────────────────────────
     if current < total:
         if st.button("➡️ Next Question", use_container_width=True, type="primary"):
@@ -228,9 +333,12 @@ def show():
             st.session_state.self_assessment_gap = None
             st.session_state.confidence_used = None
             st.session_state.confidence_score_used = None
+            st.session_state.follow_up = None
+            st.session_state.follow_up_evaluation = None
             st.info("👈 Go to **Interview** for your next question.")
     else:
-        if st.button("🏁 Finish Interview & See Report", use_container_width=True, type="primary"):
+        if st.button("🏁 Finish Interview & See Report",
+                     use_container_width=True, type="primary"):
             st.session_state.interview_complete = True
             st.rerun()
 
@@ -247,55 +355,71 @@ def show_overall_report():
         with st.spinner("Generating your overall interview report..."):
             try:
                 results = get_session_results(st.session_state.session_id)
-                # ── PDF Download ───────────────────────────────────────
-                st.markdown("---")
-                st.subheader("📄 Download Report")
-
-                # Get session info for PDF
-                all_sessions = get_all_sessions()
-                session_info = next(
-                (s for s in all_sessions if s["id"] == st.session_state.session_id),
-                {"domain": st.session_state.domain,
-                "difficulty": st.session_state.difficulty,
-                "total_questions": st.session_state.total_questions,
-                 "created_at": ""}
-                )
-
-                try:
-                    pdf_bytes = generate_pdf_report(session_info, report, results)
-                    st.download_button(
-                    label="⬇️ Download PDF Report",
-                    data=pdf_bytes,
-                    file_name=f"interview_report_session_{st.session_state.session_id}.pdf",
-                    mime="application/pdf",
-                    use_container_width=True
-                )
-                except Exception as e:
-                    st.error(f"PDF generation failed: {str(e)}")
-                report = generate_overall_report(results)
-                save_report(st.session_state.session_id, report)
+                if not results:
+                    st.error("No evaluation results found for this session.")
+                    return
+                generated_report = generate_overall_report(results)
+                save_report(st.session_state.session_id, generated_report)
                 complete_session(st.session_state.session_id)
-                existing_report = report
+                existing_report = generated_report
             except Exception as e:
                 st.error(f"Report generation failed: {str(e)}")
                 return
 
+    # At this point existing_report is guaranteed to be set
     report = existing_report
     results = get_session_results(st.session_state.session_id)
+
+    if not results:
+        st.error("No results found for this session.")
+        return
+
+    # ── PDF Download ───────────────────────────────────────
+    st.markdown("---")
+    st.subheader("📄 Download Report")
+
+    from app.utils.pdf_generator import generate_pdf_report
+    from app.db.crud import get_all_sessions
+
+    all_sessions = get_all_sessions()
+    session_info = next(
+        (s for s in all_sessions
+         if s["id"] == st.session_state.session_id),
+        {
+            "domain": st.session_state.domain,
+            "difficulty": st.session_state.difficulty,
+            "total_questions": st.session_state.total_questions,
+            "created_at": ""
+        }
+    )
+
+    try:
+        pdf_bytes = generate_pdf_report(session_info, report, results)
+        st.download_button(
+            label="⬇️ Download PDF Report",
+            data=pdf_bytes,
+            file_name=f"interview_report_session_{st.session_state.session_id}.pdf",
+            mime="application/pdf",
+            use_container_width=True
+        )
+    except Exception as e:
+        st.error(f"PDF generation failed: {str(e)}")
 
     # ── Overall Score ──────────────────────────────────────
     rec_color = recommendation_color(report["recommendation"])
     st.markdown(f"""
     <div style="text-align:center; padding:40px; background:#1e1e2e;
                 border-radius:12px; margin-bottom:24px;">
-        <div style="font-size:72px; font-weight:bold; color:{score_color(report['avg_score'])};">
+        <div style="font-size:72px; font-weight:bold;
+                    color:{score_color(report['avg_score'])};">
             {report['avg_score']}/10
         </div>
-        <div style="font-size:24px; font-weight:bold; color:{rec_color}; margin-top:12px;">
+        <div style="font-size:24px; font-weight:bold;
+                    color:{rec_color}; margin-top:12px;">
             {report['recommendation']}
         </div>
-        <div style="color:#94a3b8; font-size:15px; margin-top:12px; max-width:600px;
-                    margin-left:auto; margin-right:auto;">
+        <div style="color:#94a3b8; font-size:15px; margin-top:12px;
+                    max-width:600px; margin-left:auto; margin-right:auto;">
             {report['overall_feedback']}
         </div>
     </div>
@@ -308,7 +432,8 @@ def show_overall_report():
         <div style="background:#1e1e2e; padding:20px; border-radius:8px;
                     border-left:4px solid #22c55e; text-align:center;">
             <div style="color:#94a3b8; font-size:12px;">STRONGEST TOPIC</div>
-            <div style="color:#22c55e; font-size:18px; font-weight:bold; margin-top:8px;">
+            <div style="color:#22c55e; font-size:18px; font-weight:bold;
+                        margin-top:8px;">
                 {report['strongest_topic']}
             </div>
         </div>
@@ -318,7 +443,8 @@ def show_overall_report():
         <div style="background:#1e1e2e; padding:20px; border-radius:8px;
                     border-left:4px solid #ef4444; text-align:center;">
             <div style="color:#94a3b8; font-size:12px;">WEAKEST TOPIC</div>
-            <div style="color:#ef4444; font-size:18px; font-weight:bold; margin-top:8px;">
+            <div style="color:#ef4444; font-size:18px; font-weight:bold;
+                        margin-top:8px;">
                 {report['weakest_topic']}
             </div>
         </div>
@@ -352,6 +478,37 @@ def show_overall_report():
     with col3:
         st.metric("💡 Underconfident", f"{underconfident} questions")
 
+    # ── Difficulty Progression ─────────────────────────────
+    st.markdown("---")
+    st.subheader("📈 Difficulty Progression")
+
+    history = st.session_state.get("difficulty_history") or []
+    if history:
+        diff_colors = {"Easy": "🟢", "Medium": "🟡", "Hard": "🔴"}
+        cols = st.columns(len(history))
+        for col, h in zip(cols, history):
+            with col:
+                icon = diff_colors.get(h["difficulty"], "⚪")
+                st.markdown(f"""
+                <div style="text-align:center; background:#1e1e2e;
+                            padding:12px; border-radius:8px;">
+                    <div style="font-size:20px;">{icon}</div>
+                    <div style="color:#e2e8f0; font-size:13px; margin-top:4px;">
+                        Q{h['question']}
+                    </div>
+                    <div style="color:#94a3b8; font-size:11px;">
+                        {h['difficulty']}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+        st.markdown("")
+        st.caption(
+            f"Started at **{st.session_state.difficulty}** → "
+            f"Ended at **{history[-1]['difficulty']}**"
+        )
+    else:
+        st.info("Difficulty stayed consistent throughout the session.")
+
     # ── Per Question Breakdown ─────────────────────────────
     st.markdown("---")
     st.subheader("📋 Question-by-Question Breakdown")
@@ -359,16 +516,20 @@ def show_overall_report():
     for r in results:
         color = score_color(r["score"])
         with st.expander(
-            f"Q{r['question_number']}: {r['question_text'][:80]}... — Score: {r['score']}/10"
+            f"Q{r['question_number']}: "
+            f"{r['question_text'][:80]}... — Score: {r['score']}/10"
         ):
             st.markdown(f"""
-            <div style="background:#1e1e2e; padding:16px; border-radius:8px; margin-bottom:12px;">
-                <span style="color:{color}; font-size:24px; font-weight:bold;">{r['score']}/10</span>
-                <span style="color:#94a3b8; margin-left:16px;">{r['interviewer_note']}</span>
+            <div style="background:#1e1e2e; padding:16px; border-radius:8px;
+                        margin-bottom:12px;">
+                <span style="color:{color}; font-size:24px;
+                             font-weight:bold;">{r['score']}/10</span>
+                <span style="color:#94a3b8; margin-left:16px;">
+                    {r['interviewer_note']}
+                </span>
             </div>
             """, unsafe_allow_html=True)
 
-            # Confidence gap per question
             if r.get("confidence") and r.get("self_assessment_gap") is not None:
                 gap = r["self_assessment_gap"]
                 if gap < -2:
@@ -382,7 +543,8 @@ def show_overall_report():
                     gcolor = "#22c55e"
                 st.markdown(f"""
                 <div style="color:{gcolor}; font-size:13px; margin-bottom:12px;">
-                    Confidence: {r['confidence']} → {glabel} (Gap: {gap:+.1f})
+                    Confidence: {r['confidence']} → {glabel}
+                    (Gap: {gap:+.1f})
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -414,6 +576,8 @@ def show_overall_report():
                     "session_scores", "interview_complete", "report",
                     "asked_questions", "selected_confidence",
                     "selected_confidence_score", "self_assessment_gap",
-                    "confidence_used", "confidence_score_used"]:
+                    "confidence_used", "confidence_score_used",
+                    "current_difficulty", "difficulty_history",
+                    "follow_up", "follow_up_evaluation"]:
             st.session_state[key] = None
         st.info("👈 Go to **Home** to start a new session.")
