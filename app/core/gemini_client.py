@@ -1,15 +1,43 @@
 import os
 import json
 import time
-from dotenv import load_dotenv
 from groq import Groq
 from app.config import MODEL_NAME, MAX_RETRIES, RETRY_WAIT_SECONDS
 from app.utils.logger import get_logger
 
-load_dotenv()
-
 logger = get_logger(__name__)
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+
+def get_api_key() -> str:
+    """
+    Gets GROQ API key from either:
+    1. Streamlit Cloud secrets (when deployed)
+    2. Local .env file (when running locally)
+    """
+    # Try Streamlit secrets first (cloud deployment)
+    try:
+        import streamlit as st
+        key = st.secrets.get("GROQ_API_KEY")
+        if key:
+            return key
+    except Exception:
+        pass
+
+    # Fall back to environment variable (local development)
+    from dotenv import load_dotenv
+    load_dotenv()
+    key = os.getenv("GROQ_API_KEY")
+    if key:
+        return key
+
+    raise ValueError(
+        "GROQ_API_KEY not found. "
+        "Set it in .env for local dev or Streamlit secrets for cloud."
+    )
+
+
+# Initialize client
+client = Groq(api_key=get_api_key())
 MODEL = MODEL_NAME
 
 

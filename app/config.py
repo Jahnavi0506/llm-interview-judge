@@ -10,7 +10,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ── API Settings ───────────────────────────────────────────
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+# ── API Settings ───────────────────────────────────────────
+# Key is loaded lazily in gemini_client.py to support both local and cloud
+GROQ_API_KEY = None  # handled by gemini_client.get_api_key()
 MODEL_NAME = "llama-3.3-70b-versatile"
 MAX_RETRIES = 5
 RETRY_WAIT_SECONDS = 30
