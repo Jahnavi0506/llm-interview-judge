@@ -12,6 +12,13 @@ def get_connection() -> sqlite3.Connection:
 
 
 def init_db():
+    """
+    Creates all tables if they don't already exist.
+    Safe to call every time the app starts.
+    On Streamlit Cloud, data resets on restart — this is expected behavior.
+    For persistent storage in production, replace SQLite with PostgreSQL.
+    """
+    os.makedirs("data", exist_ok=True)
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -23,16 +30,6 @@ def init_db():
             total_questions INTEGER DEFAULT 5,
             status          TEXT DEFAULT 'in_progress',
             created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-        CREATE TABLE IF NOT EXISTS follow_up_questions (
-            id                  INTEGER PRIMARY KEY AUTOINCREMENT,
-            evaluation_id       INTEGER REFERENCES evaluations(id),
-            question_id         INTEGER REFERENCES questions(id),
-            follow_up_text      TEXT NOT NULL,
-            targets             TEXT,
-            intent              TEXT,
-            candidate_answer    TEXT,
-            created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
 
         CREATE TABLE IF NOT EXISTS questions (
@@ -72,6 +69,17 @@ def init_db():
             weakest_topic       TEXT,
             overall_feedback    TEXT,
             recommendation      TEXT,
+            created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+
+        CREATE TABLE IF NOT EXISTS follow_up_questions (
+            id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+            evaluation_id       INTEGER REFERENCES evaluations(id),
+            question_id         INTEGER REFERENCES questions(id),
+            follow_up_text      TEXT NOT NULL,
+            targets             TEXT,
+            intent              TEXT,
+            candidate_answer    TEXT,
             created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     """)

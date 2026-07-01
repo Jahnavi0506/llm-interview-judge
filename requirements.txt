@@ -2,6 +2,7 @@ streamlit
 google-genai
 pydantic
 python-dotenv
+groq
 reportlab
 plotly
 pytest

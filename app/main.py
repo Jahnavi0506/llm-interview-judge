@@ -95,7 +95,8 @@ with st.sidebar:
          "📊 Evaluation",
          "🕘 History",
          "📈 Dashboard",
-         "🔬 Consistency Test"],
+         "🔬 Consistency Test",
+         "🎯 Accuracy Validation"],
         label_visibility="collapsed"
     )
 
@@ -171,4 +172,7 @@ elif page == "📈 Dashboard":
 
 elif page == "🔬 Consistency Test":
     from app.pages.consistency_test import show
+    show()
+elif page == "🎯 Accuracy Validation":
+    from app.pages.accuracy_test import show
     show()
